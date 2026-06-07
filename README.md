@@ -51,6 +51,12 @@ Examples:
 - "Most popular AI talks at Voxxed Zurich"
 - "What are the main topics on Wednesday at Devoxx Belgium 2025?"
 
+### Example Prompt
+
+"When are the CFPs opening for these events?"
+
+<img width="1437" height="388" alt="Screenshot 2026-06-07 at 12 55 14" src="https://github.com/user-attachments/assets/1a55eea2-d5d5-44d8-a6d5-52577e0133bf" />
+
 ## Releasing updates
 
 Bump `version` in `plugins/devoxx-voxxed-cfp/.claude-plugin/plugin.json` on every
