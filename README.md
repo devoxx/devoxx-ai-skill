@@ -45,6 +45,7 @@ speaker in an answer links to its page on m.devoxx.com.
 Examples:
 
 - "When is the next Devoxx?"
+- "When are the CFPs opening for these events?"
 - "Who is speaking about Kubernetes at Devoxx UK?"
 - "What's on Wednesday in Room 8 at Devoxx Belgium?"
 - "Most popular AI talks at Voxxed Zurich"
