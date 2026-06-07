@@ -13,7 +13,27 @@ In Claude Code:
 
 In the Claude desktop app (Cowork), add the marketplace under Settings → Capabilities.
 
-## Plugin
+## Using with Codex CLI / Gemini CLI
+
+The skill follows the cross-agent `SKILL.md` standard, so it also works in OpenAI
+Codex CLI and Google Gemini CLI. Only the plugin/marketplace wrappers are
+Claude-specific — copy the skill folder itself:
+
+```bash
+git clone https://github.com/devoxx/claude-plugin
+
+# Codex CLI (personal skills; use .codex/skills/ in a project for per-repo)
+cp -r claude-plugin/plugins/devoxx-voxxed-cfp/skills/devoxx-voxxed-cfp ~/.codex/skills/
+
+# Gemini CLI (user skills; use .gemini/skills/ in a workspace for per-repo)
+cp -r claude-plugin/plugins/devoxx-voxxed-cfp/skills/devoxx-voxxed-cfp ~/.gemini/skills/
+```
+
+Then just ask a Devoxx/Voxxed question and the skill auto-activates. In Codex CLI
+you can also invoke it explicitly with `$devoxx-voxxed-cfp` (list skills with
+`/skills`). The skill only needs `curl` and `python3` shell access — no API keys.
+
+## Plugins
 
 ### devoxx-voxxed-cfp
 
