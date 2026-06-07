@@ -7,7 +7,7 @@ A Claude plugin marketplace for Devoxx and VoxxedDays conferences.
 In Claude Code:
 
 ```
-/plugin marketplace add devoxx/claude-plugins
+/plugin marketplace add devoxx/devoxx-ai-skills
 /plugin install devoxx-voxxed-cfp@devoxx-plugins
 ```
 
@@ -20,7 +20,7 @@ Codex CLI and Google Gemini CLI. Only the plugin/marketplace wrappers are
 Claude-specific — copy the skill folder itself:
 
 ```bash
-git clone https://github.com/devoxx/claude-plugin
+git clone https://github.com/devoxx/devoxx-ai-skill
 
 # Codex CLI (personal skills; use .codex/skills/ in a project for per-repo)
 cp -r claude-plugin/plugins/devoxx-voxxed-cfp/skills/devoxx-voxxed-cfp ~/.codex/skills/
