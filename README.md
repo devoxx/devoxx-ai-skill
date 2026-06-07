@@ -7,7 +7,7 @@ A Claude plugin marketplace for Devoxx and VoxxedDays conferences.
 In Claude Code:
 
 ```
-/plugin marketplace add devoxx/devoxx-ai-skills
+/plugin marketplace add devoxx/devoxx-ai-skill
 /plugin install devoxx-voxxed-cfp@devoxx-plugins
 ```
 
