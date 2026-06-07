@@ -13,7 +13,7 @@ In Claude Code:
 
 In the Claude desktop app (Cowork), add the marketplace under Settings → Capabilities.
 
-## Plugins
+## Plugin
 
 ### devoxx-voxxed-cfp
 
