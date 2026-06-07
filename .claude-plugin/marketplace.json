@@ -1,0 +1,22 @@
+{
+  "name": "devoxx-plugins",
+  "owner": {
+    "name": "Stephan Janssen",
+    "email": "sja@devoxx.com"
+  },
+  "description": "Plugins for Devoxx and VoxxedDays conferences",
+  "plugins": [
+    {
+      "name": "devoxx-voxxed-cfp",
+      "source": "./plugins/devoxx-voxxed-cfp",
+      "description": "Ask about speakers, talks and schedules for any Devoxx or VoxxedDays event via the public CFP APIs, with clickable links to m.devoxx.com",
+      "category": "productivity",
+      "keywords": ["devoxx", "voxxed", "conference", "cfp", "schedule", "speakers", "talks"],
+      "author": {
+        "name": "Stephan Janssen"
+      },
+      "homepage": "https://devoxx.com",
+      "license": "MIT"
+    }
+  ]
+}
