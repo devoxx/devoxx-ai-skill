@@ -1,4 +1,4 @@
-# Devoxx Plugins
+# Devoxx / VoxxedDays Plugins
 
 A Claude plugin marketplace for Devoxx and VoxxedDays conferences.
 
