@@ -7,10 +7,12 @@ description: >
   API. Use whenever the user asks about a Devoxx or Voxxed speaker bio,
   company or socials, a talk or session topic, track, level or description,
   who is presenting, the program or agenda for a day, what is on in a room,
-  which talks cover a topic, or which Devoxx and VoxxedDays events are
-  upcoming or past. Example triggers: who is speaking about Kubernetes at
-  Devoxx UK, what is on Wednesday in Room 8, find AI talks at Voxxed Zurich,
-  tell me about a speaker, most popular talks, when is the next Devoxx.
+  which talks cover a topic, which Devoxx and VoxxedDays events are
+  upcoming or past, or when an event's CFP (call for papers) opens or
+  closes. Example triggers: who is speaking about Kubernetes at Devoxx UK,
+  what is on Wednesday in Room 8, find AI talks at Voxxed Zurich, tell me
+  about a speaker, most popular talks, when is the next Devoxx, when does
+  the CFP open for Devoxx Belgium.
 ---
 
 # Devoxx / VoxxedDays — CFP API
@@ -41,6 +43,7 @@ Base: `https://{slug}.cfp.dev/api/public` — all GET, no auth.
 
 | Need | Endpoint |
 |------|----------|
+| Event metadata + CFP open/close dates | `/event` |
 | All talks (content) | `/talks` |
 | All speakers (summary, paginated) | `/speakers?page=N` |
 | One speaker + their talks | `/speakers/{id}` |
@@ -89,5 +92,6 @@ Format as `[Talk Title](url)` and `[Speaker Name](url)` everywhere — including
 - "What's on <day>" / "what's in <room>" → `GET /schedules` for valid days, then `/schedules/{day}`, filter by room, sort by `fromDate`.
 - "Most popular talks" → sort `/talks` by `totalFavourites` descending.
 - "When/where is the next Devoxx or Voxxed event" → registry endpoints on devoxxians.com.
+- "When does/did the CFP open or close?" / "is the CFP open for <event>?" → resolve the slug, then `GET /event` and read `cfpOpening`/`cfpClosing` (UTC ISO). Compare to now to label open / closed / opens-later; an event whose `apiURL` is null has no CFP instance yet. The registry does NOT carry CFP dates — always use `/event`.
 
 Keep answers focused on what was asked. Every talk title and speaker name in the answer must be a markdown link per the linking rules above.

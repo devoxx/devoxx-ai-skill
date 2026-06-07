@@ -6,6 +6,7 @@ answers from the events' live public APIs. No setup, no login.
 ## What you can ask
 
 - **Events** — "When is the next Devoxx?", "Which Voxxed Days are coming up?"
+- **CFP** — "When does the CFP open for Devoxx Belgium?", "Which CFPs are open right now?"
 - **Speakers** — "Tell me about Victor Rentea", "What is Venkat giving at Devoxx UK?"
 - **Talks** — "Find Kubernetes talks at Devoxx Belgium", "Most popular AI talks at Voxxed Zurich?"
 - **Schedule** — "What's on Wednesday at Devoxx UK?", "What's in Room 8 on Thursday?"
@@ -14,7 +15,8 @@ answers from the events' live public APIs. No setup, no login.
 
 The plugin adds one skill, **devoxx-cfp**. It discovers events (and their API
 slugs) from the devoxxians.com registry, then queries that event's public CFP
-API (`{slug}.cfp.dev`) for speakers, talks, schedules, rooms, and tracks.
+API (`{slug}.cfp.dev`) for event metadata (including CFP open/close dates),
+speakers, talks, schedules, rooms, and tracks.
 Every talk and speaker in an answer links to its page on m.devoxx.com, and
 times are shown in the event's local timezone.
 

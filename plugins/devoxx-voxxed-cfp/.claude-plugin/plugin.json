@@ -1,6 +1,6 @@
 {
   "name": "devoxx-voxxed-cfp",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Answer questions about speakers, talks, and schedules for any Devoxx or VoxxedDays event using the public CFP APIs, with clickable links to m.devoxx.com.",
   "author": {
     "name": "Stephan"

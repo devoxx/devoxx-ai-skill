@@ -48,6 +48,51 @@ PY
 
 ---
 
+## GET /event
+
+`https://{slug}.cfp.dev/api/public/event` — full metadata for one event. This is
+the source of truth for **CFP opening/closing dates** (the registry does NOT
+carry them). Use it for "when does/did the CFP open or close?", "is the CFP open
+for X?", and to confirm whether the schedule/rooms are published yet.
+
+| Field | Notes |
+|-------|-------|
+| `slug` / `name` | e.g. `dvbe26` / "Devoxx Belgium 2026" |
+| `cfpOpening` / `cfpClosing` | UTC ISO timestamps — the CFP submission window. Compare to "now" to label open/closed. Some past events have both set to the same instant (treat as closed). |
+| `fromDate` / `toDate` | event dates (UTC ISO) |
+| `timezone` | IANA zone for display, e.g. `Europe/Brussels` |
+| `live` | whether the CFP instance is live |
+| `schedulePublished` / `roomsPublished` | booleans — gate `/schedules` and `/rooms` |
+| `website` | event homepage |
+| `tracks` / `sessionTypes` | embedded track and session-type lists |
+
+CFP status across all upcoming events (open / closed / not-live-yet):
+
+```bash
+python3 - <<'PY'
+import json, subprocess, re
+from datetime import datetime, timezone
+def get(u):
+    out = subprocess.run(["curl","-s","-m","20",u,"-H","Accept: application/json"],
+                         capture_output=True, text=True).stdout.strip()
+    return json.loads(out) if out else None
+now = datetime.now(timezone.utc)
+def parse(ts): return datetime.fromisoformat(ts.replace("Z","+00:00")) if ts else None
+for e in get("https://devoxxians.com/api/public/events/upcoming") or []:
+    m = re.match(r"[Hh]ttps://([^.]+)\.cfp\.dev", (e.get("apiURL") or ""))
+    if not m:
+        print(e["name"], "- CFP not live yet"); continue
+    d = get(f"https://{m.group(1)}.cfp.dev/api/public/event")
+    o, c = parse(d.get("cfpOpening")), parse(d.get("cfpClosing"))
+    status = "no CFP dates"
+    if o and c:
+        status = "OPEN" if o <= now <= c else ("closed" if now > c else "opens later")
+    print(f'{e["name"]:<32} open={d.get("cfpOpening")}  close={d.get("cfpClosing")}  -> {status}')
+PY
+```
+
+---
+
 ## GET /talks
 
 `https://{slug}.cfp.dev/api/public/talks` — JSON array of all sessions with
