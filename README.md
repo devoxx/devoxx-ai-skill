@@ -48,6 +48,7 @@ Examples:
 - "Who is speaking about Kubernetes at Devoxx UK?"
 - "What's on Wednesday in Room 8 at Devoxx Belgium?"
 - "Most popular AI talks at Voxxed Zurich"
+- "What are the main topics on Wednesday at Devoxx Belgium 2025?"
 
 ## Releasing updates
 
