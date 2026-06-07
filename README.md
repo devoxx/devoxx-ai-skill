@@ -53,3 +53,7 @@ Examples:
 
 Bump `version` in `plugins/devoxx-voxxed-cfp/.claude-plugin/plugin.json` on every
 release — users only receive updates when that field changes.
+
+## License
+
+[MIT](LICENSE)
