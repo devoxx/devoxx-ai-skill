@@ -37,8 +37,10 @@ List events with slugs:
 
 ```bash
 python3 - <<'PY'
-import json, subprocess, re
-def get(u): return json.loads(subprocess.run(["curl","-s","-m","20",u],capture_output=True,text=True).stdout)
+import json, re, urllib.request
+def get(u):
+    with urllib.request.urlopen(urllib.request.Request(u, headers={"Accept": "application/json"}), timeout=20) as r:
+        return json.loads(r.read())
 for kind in ("upcoming","past"):
     for e in get(f"https://devoxxians.com/api/public/events/{kind}"):
         m = re.match(r"https://([^.]+)\.cfp\.dev", e.get("apiURL") or "")
@@ -70,12 +72,15 @@ CFP status across all upcoming events (open / closed / not-live-yet):
 
 ```bash
 python3 - <<'PY'
-import json, subprocess, re
+import json, re, urllib.request
 from datetime import datetime, timezone
 def get(u):
-    out = subprocess.run(["curl","-s","-m","20",u,"-H","Accept: application/json"],
-                         capture_output=True, text=True).stdout.strip()
-    return json.loads(out) if out else None
+    try:
+        with urllib.request.urlopen(urllib.request.Request(u, headers={"Accept": "application/json"}), timeout=20) as r:
+            data = r.read().decode()
+        return json.loads(data) if data.strip() else None
+    except Exception:
+        return None
 now = datetime.now(timezone.utc)
 def parse(ts): return datetime.fromisoformat(ts.replace("Z","+00:00")) if ts else None
 for e in get("https://devoxxians.com/api/public/events/upcoming") or []:
@@ -121,12 +126,13 @@ Gotchas: `summary`/`description` can be `null` (coerce with `or ""`),
 f-string (use `.format()` or pre-assign):
 
 ```bash
-curl -s -m 30 "https://dvbe25.cfp.dev/api/public/talks" | python3 -c '
-import sys, json, re
+python3 - <<'PY'
+import json, re, urllib.request
 EVENT = "dvbe25"
 term = "kubernetes"  # case-insensitive
 def slug(s): return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")
-d = json.load(sys.stdin)
+with urllib.request.urlopen("https://dvbe25.cfp.dev/api/public/talks", timeout=30) as r:
+    d = json.loads(r.read())
 def kw(t): return " ".join((k.get("name") or "") for k in (t.get("keywords") or []))
 def hit(t):
     parts = [t.get("title"), t.get("summary"), t.get("description"),
@@ -141,7 +147,7 @@ for t in m:
     print("- [{}]({}) ({}, {}) - {} [{} fav]".format(
         t["title"], turl, (t.get("track") or {}).get("name"),
         t.get("audienceLevel"), spk, t.get("totalFavourites")))
-'
+PY
 ```
 
 Most popular talks: sort by `totalFavourites` descending, same link format.
@@ -163,15 +169,14 @@ terminator):
 
 ```bash
 python3 - <<'PY'
-import json, subprocess
+import json, urllib.request
 SLUG = "dvbe25"
 name = "abdel"  # case-insensitive substring
 out, page = [], 0
 while page < 60:
-    raw = subprocess.run(
-        ["curl","-s","-m","20",
-         f"https://{SLUG}.cfp.dev/api/public/speakers?page={page}"],
-        capture_output=True, text=True).stdout.strip()
+    url = f"https://{SLUG}.cfp.dev/api/public/speakers?page={page}"
+    with urllib.request.urlopen(url, timeout=20) as r:
+        raw = r.read().decode().strip()
     if not raw:           # empty body => past the last page
         break
     data = json.loads(raw)
@@ -216,14 +221,15 @@ Example — a day's program in event-local time, optionally filtered by room,
 with talk links:
 
 ```bash
-curl -s -m 30 "https://dvbe25.cfp.dev/api/public/schedules/wednesday" | python3 -c '
-import sys, json, re
+python3 - <<'PY'
+import json, re, urllib.request
 from datetime import datetime
 from zoneinfo import ZoneInfo
 EVENT = "dvbe25"
 room_filter = None  # e.g. "Room 8"
 def slug(s): return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")
-d = json.load(sys.stdin)
+with urllib.request.urlopen("https://dvbe25.cfp.dev/api/public/schedules/wednesday", timeout=30) as r:
+    d = json.loads(r.read())
 def local(ts, tz):
     return datetime.fromisoformat(ts.replace("Z","+00:00")).astimezone(ZoneInfo(tz or "UTC")).strftime("%H:%M")
 rows = []
@@ -241,7 +247,7 @@ for _, a, b, room, title, spk in sorted(rows):
     line = "{}-{}  {}  {}".format(a, b, room, title)
     if spk: line += " - " + spk
     print(line)
-'
+PY
 ```
 
 ## GET /rooms and GET /tracks

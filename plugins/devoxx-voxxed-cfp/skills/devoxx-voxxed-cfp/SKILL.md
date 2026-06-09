@@ -1,18 +1,15 @@
 ---
 name: devoxx-voxxed-cfp
 description: >
-  Answer questions about speakers, talks, and schedules for any Devoxx or
-  VoxxedDays conference by querying the event's public CFP API at
-  [event-slug].cfp.dev. Discovers event slugs via the devoxxians.com events
-  API. Use whenever the user asks about a Devoxx or Voxxed speaker bio,
-  company or socials, a talk or session topic, track, level or description,
-  who is presenting, the program or agenda for a day, what is on in a room,
-  which talks cover a topic, which Devoxx and VoxxedDays events are
-  upcoming or past, or when an event's CFP (call for papers) opens or
-  closes. Example triggers: who is speaking about Kubernetes at Devoxx UK,
-  what is on Wednesday in Room 8, find AI talks at Voxxed Zurich, tell me
-  about a speaker, most popular talks, when is the next Devoxx, when does
-  the CFP open for Devoxx Belgium.
+  Use when the user asks about speakers, talks, schedules, or CFP dates for
+  any Devoxx or VoxxedDays conference. Covers: speaker bios/socials, talk
+  topics/tracks/levels, daily program or room agenda, most popular talks,
+  upcoming or past events, and CFP open/close dates. Queries the public
+  CFP API at [event-slug].cfp.dev and the devoxxians.com event registry.
+  Example triggers: who speaks about Kubernetes at Devoxx UK, what is on
+  Wednesday in Room 8, find AI talks at Voxxed Zurich, when does the CFP
+  open for Devoxx Belgium.
+license: Apache-2.0
 ---
 
 # Devoxx / VoxxedDays — CFP API
@@ -83,7 +80,7 @@ import re
 def slug(s): return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")
 ```
 
-Format as `[Talk Title](url)` and `[Speaker Name](url)` everywhere — including lists and schedule overviews. For event-level answers, link the event's `website` from the registry payload.
+Format every talk as `[Talk Title](https://m.devoxx.com/events/{slug}/talks/{id}/{slug(title)})` and every speaker as `[Speaker Name](https://m.devoxx.com/events/{slug}/speaker/{id}/{slug(name)})` — including in lists and schedule overviews. For event-level answers, link the event's `website` from the registry payload.
 
 ## Answering patterns
 
